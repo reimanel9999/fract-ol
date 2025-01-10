@@ -6,14 +6,14 @@
 /*   By: mcarvalh <mcarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:06:24 by mcarvalh          #+#    #+#             */
-/*   Updated: 2025/01/09 18:52:19 by mcarvalh         ###   ########.fr       */
+/*   Updated: 2025/01/10 12:26:05 by mcarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include "MLX42.h"
+#include "include/MLX42/MLX42.h"
 #include "libft/libft.h"
 
 // Dimensions
@@ -52,6 +52,7 @@ typedef struct s_fractol
 	double	off_y;
 	double	zoom;
 	int		max_ite;
+	int		error;
 }	t_fractol;
 
 //Initialize fractol
@@ -66,8 +67,9 @@ int	fractal_calc(t_fractol *fractol);
 int	set_colour(t_fractol *fractol, int nbr_ite);
 
 // Clean exit of fractols
-void	exit_handler(void *param);
+void	exit_handler(void *param, int exit_code);
 void	error_handler(t_fractol *fractol);
+void	close_window(void *param);
 
 // Events handler keys + mouse
 void	key_handler(mlx_key_data_t key_data, void *param);
