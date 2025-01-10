@@ -6,13 +6,11 @@
 /*   By: mcarvalh <mcarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 14:15:13 by mcarvalh          #+#    #+#             */
-/*   Updated: 2025/01/09 18:45:12 by mcarvalh         ###   ########.fr       */
+/*   Updated: 2025/01/10 12:26:05 by mcarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 int	main(int argc, char **argv)
 {
@@ -26,11 +24,12 @@ int	main(int argc, char **argv)
 	init_fractol(fractol);
 	args_handler(fractol, argc, argv);
 	init_mlx(fractol);
-	draw_fractol(fractol);
+	if (fractol->error == 0)
+		draw_fractol(fractol);
 	// mlx_key_hook();
 	// mlx_mouse_hook();
 	// mlx_hook();
-	mlx_close_hook(fractol->mlx, exit_handler, fractol);
+	mlx_close_hook(fractol->mlx, close_window, fractol);
 	mlx_loop(fractol->mlx);
 	return (0);
 }

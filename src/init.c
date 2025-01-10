@@ -6,7 +6,7 @@
 /*   By: mcarvalh <mcarvalh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 14:07:54 by mcarvalh          #+#    #+#             */
-/*   Updated: 2025/01/09 18:49:28 by mcarvalh         ###   ########.fr       */
+/*   Updated: 2025/01/10 12:26:07 by mcarvalh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,19 @@ void	init_fractol(t_fractol *fractol)
 {
 	fractol->mlx = NULL;
 	fractol->image = NULL;
-	fractol->cx = 0;
-	fractol->cy = 0;
+	fractol->cx = 0.0;
+	fractol->cy = 0.0;
+	fractol->set = 0;
 	fractol->colour = 0xADD8E6;
 	fractol->zoom = 300;
-	fractol->off_x = 0;
-	fractol->off_y = 0;
+	fractol->off_x = 0.0;
+	fractol->off_y = 0.0;
 	fractol->max_ite = 60;
-	fractol->min_r = 0;
-	fractol->max_r = 0;
-	fractol->max_i = 0;
-	fractol->min_i = 0;
+	fractol->min_r = 0.0;
+	fractol->max_r = 0.0;
+	fractol->max_i = 0.0;
+	fractol->min_i = 0.0;
+	fractol->error = 0;
 }
 
 void	init_mlx(t_fractol *fractol)
@@ -35,7 +37,7 @@ void	init_mlx(t_fractol *fractol)
 	if (!fractol->mlx)
 		error_handler(fractol);
 	fractol->image = mlx_new_image(fractol->mlx, WIDTH, HEIGHT);
-	if (!fractol->image)
+	if (!fractol->image || !fractol->image->pixels)
 		error_handler(fractol);	
 	map_complex(fractol);
 }
