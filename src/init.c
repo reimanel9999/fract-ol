@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcarvalh <mcarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manelcarvalho <manelcarvalho@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 14:07:54 by mcarvalh          #+#    #+#             */
-/*   Updated: 2025/01/10 12:26:07 by mcarvalh         ###   ########.fr       */
+/*   Updated: 2025/01/20 00:48:36 by manelcarval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	init_fractol(t_fractol *fractol)
 {
-	fractol->mlx = NULL;
-	fractol->image = NULL;
 	fractol->cx = 0.0;
 	fractol->cy = 0.0;
 	fractol->set = 0;
@@ -23,12 +21,14 @@ void	init_fractol(t_fractol *fractol)
 	fractol->zoom = 300;
 	fractol->off_x = 0.0;
 	fractol->off_y = 0.0;
-	fractol->max_ite = 60;
+	fractol->max_ite = 100;
 	fractol->min_r = 0.0;
 	fractol->max_r = 0.0;
 	fractol->max_i = 0.0;
 	fractol->min_i = 0.0;
 	fractol->error = 0;
+	fractol->palette = 0;
+	fractol->palette_idx = 0;
 }
 
 void	init_mlx(t_fractol *fractol)
@@ -38,7 +38,11 @@ void	init_mlx(t_fractol *fractol)
 		error_handler(fractol);
 	fractol->image = mlx_new_image(fractol->mlx, WIDTH, HEIGHT);
 	if (!fractol->image || !fractol->image->pixels)
-		error_handler(fractol);	
+		error_handler(fractol);
+	fractol->palette = malloc(sizeof(uint32_t) * fractol->max_ite);
+    if (!fractol->palette)
+		error_handler(fractol);
+    generate_palette(fractol);
 	map_complex(fractol);
 }
 
@@ -66,5 +70,24 @@ void	args_handler(t_fractol *fractol, int argc, char **argv)
 		error_handler(fractol);
 	else if (fractol->set == JULIA && (argc > 4 || argc == 3))
 		error_handler(fractol);
-	// julia_start_value();
+	if (fractol->set == JULIA)
+		julia_start_value(fractol, argc, argv);
+}
+
+void	julia_start_value(t_fractol *fractol, int argc, char **argv)
+{
+	if (argc < 5 && argc != 3)
+	{
+		fractol->j_cr = ft_atof(argv[2]);
+		if (fractol->j_ci == -42 || fractol->j_ci > 2.0 || fractol->j_ci < -2.0)
+			error_handler(fractol);
+		fractol->j_ci = ft_atof(argv[3]);
+		if (fractol->j_cr == -42 || fractol->j_ci > 2.0 || fractol->j_ci < -2.0)
+			error_handler(fractol);
+	}
+	else
+	{
+		fractol->j_ci = -0.090000;
+		fractol->j_cr = -0.766667;
+	}
 }

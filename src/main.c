@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcarvalh <mcarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manelcarvalho <manelcarvalho@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/29 14:15:13 by mcarvalh          #+#    #+#             */
-/*   Updated: 2025/01/10 12:26:05 by mcarvalh         ###   ########.fr       */
+/*   Updated: 2025/01/19 22:27:55 by manelcarval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@ int	main(int argc, char **argv)
 	t_fractol	*fractol;
 
 	fractol = ft_calloc(1, sizeof(t_fractol));
-	if (!fractol)
-		return(-1);
 	if (argc < 2 || !argv[1])
 		error_handler(fractol);
 	init_fractol(fractol);
@@ -26,7 +24,8 @@ int	main(int argc, char **argv)
 	init_mlx(fractol);
 	if (fractol->error == 0)
 		draw_fractol(fractol);
-	// mlx_key_hook();
+	mlx_key_hook(fractol->mlx, key_handler, fractol);
+	// mlx_scroll_hook();
 	// mlx_mouse_hook();
 	// mlx_hook();
 	mlx_close_hook(fractol->mlx, close_window, fractol);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcarvalh <mcarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manelcarvalho <manelcarvalho@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 16:11:23 by mcarvalh          #+#    #+#             */
-/*   Updated: 2025/01/10 11:43:39 by mcarvalh         ###   ########.fr       */
+/*   Updated: 2025/01/19 23:46:46 by manelcarval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ void	exit_handler(void *param, int exit_code)
 	fractol = (t_fractol *)param;
 	if (fractol)
 	{
+		mlx_close_window(fractol->mlx);
+		if (fractol->palette)
+			free(fractol->palette);
 		if (fractol->image && fractol->mlx)
 			mlx_delete_image(fractol->mlx, fractol->image);
 		if (fractol->mlx)
-		{
-			mlx_close_window(fractol->mlx);
 			mlx_terminate(fractol->mlx);
-		}
 		free(fractol);
 	}
 	exit(exit_code);

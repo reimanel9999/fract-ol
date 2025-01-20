@@ -3,33 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcarvalh <mcarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manelcarvalho <manelcarvalho@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 18:24:15 by mcarvalh          #+#    #+#             */
-/*   Updated: 2025/01/10 11:43:40 by mcarvalh         ###   ########.fr       */
+/*   Updated: 2025/01/17 17:13:32 by manelcarval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-int	mandel_calc(t_fractol *fractol)
+int	mandelbrot(t_fractol *fractol)
 {
-	int		m;
+	int		ite;
 	double	zx;
 	double	zy;
 	double	temp;
 
 	zx = 0;
 	zy = 0;
-	m = 0;
-	while (m < fractol->max_ite)
+	ite = 0;
+	while (ite < fractol->max_ite)
 	{
 		if ((zx * zx + zy * zy) > 4.0)
 			break ;
 		temp = 2 * zx * zy + fractol->cy;
 		zx = zx * zx - zy * zy + fractol->cx;
 		zy = temp;
-		m++;
+		ite++;
 	}
-	return (m);
+	return (ite);
 }

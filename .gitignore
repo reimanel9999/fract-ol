@@ -1,0 +1,6 @@
+/includes/MLX42
+/includes/libft
+/obj/*.o
+*.out
+.DS_Store
+Thumbs.db

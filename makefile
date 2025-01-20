@@ -3,16 +3,18 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mcarvalh <mcarvalh@student.42.fr>          +#+  +:+       +#+         #
+#    By: manelcarvalho <manelcarvalho@student.42    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/29 14:01:22 by mcarvalh          #+#    #+#              #
-#    Updated: 2025/01/09 10:27:46 by mcarvalh         ###   ########.fr        #
+#    Updated: 2025/01/16 20:17:48 by manelcarval      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g
+
+# ASAN_LIB = -fsanitize=address
 
 SRC_DIR = src
 OBJ_DIR = obj
@@ -24,14 +26,14 @@ OBJ_FILES = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRC_FILES))
 LIBFT_PATH = includes/libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
-MLX_PATH = includes/
-MLX = $(MLX_PATH)/libmlx42.a
+MLX_PATH = includes/MLX42
+MLX = $(MLX_PATH)/build/libmlx42.a
 
 all: $(NAME)
 
 $(NAME): $(OBJ_FILES) $(LIBFT) $(MLX)
-	@$(CC) $(FLAGS) -o $@ $^ -L$(MLX_PATH) -L$(LIBFT_PATH) -lmlx42 -lglfw -ldl -lm -lpthread
-#	-L/opt/homebrew/Cellar/glfw/3.4/lib -lmlx42 -lglfw -framework Cocoa -framework OpenGL -framework IOKit -mmacosx-version-min=15.2
+	@$(CC) $(FLAGS) -o $@ $^ -L$(MLX_PATH)/build -L$(LIBFT_PATH) -L/opt/homebrew/Cellar/glfw/3.4/lib -lmlx42 -lglfw -framework Cocoa -framework OpenGL -framework IOKit -mmacosx-version-min=15.2
+# -lmlx42 -lglfw -ldl -lm -lpthread
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
@@ -44,11 +46,11 @@ $(MLX):
 	@$(MAKE) -C $(MLX_PATH)
 
 clean:
-	@rm -r $(OBJ_DIR)
+	rm -r $(OBJ_DIR)
 
 fclean: clean
-	@rm $(NAME)
-	@$(MAKE) -C $(LIBFT_PATH) fclean
+	rm $(NAME)
+	$(MAKE) -C $(LIBFT_PATH) fclean
 
 
 re: fclean all

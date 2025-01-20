@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fractol.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcarvalh <mcarvalh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: manelcarvalho <manelcarvalho@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:06:24 by mcarvalh          #+#    #+#             */
-/*   Updated: 2025/01/10 12:26:05 by mcarvalh         ###   ########.fr       */
+/*   Updated: 2025/01/20 00:42:14 by manelcarval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,19 @@
 # define JULIA 2
 
 // Event handler keys + mouse
-# define ESC 65307
-# define UP 65362
-# define DOWN 65364
-# define LEFT 65361
-# define RIGHT 65363
+# define ESC 256
+# define UP 87
+# define DOWN 83
+# define LEFT 65
+# define RIGHT 68
 # define PLUS 61
 # define MINUS 45
+
+// typedef struct s_image
+// {
+// 	mlx_t		*mlx;
+// 	mlx_image_t	*image;
+// }	t_img;
 
 typedef struct s_fractol
 {
@@ -40,19 +46,23 @@ typedef struct s_fractol
 	mlx_image_t	*image;
 //	void	*window;
 // 	void	*image_ptr;
-	int		set;
-	double	cx;
-	double	cy;
-	double	min_i;
-	double	max_i;
-	double	min_r;
-	double	max_r;
-	int		colour;
-	double	off_x;
-	double	off_y;
-	double	zoom;
-	int		max_ite;
-	int		error;
+	int			set;
+	double		cx;
+	double		cy;
+	double		j_cr;
+	double		j_ci;
+	double		min_i;
+	double		max_i;
+	double		min_r;
+	double		max_r;
+	int			colour;
+	double		off_x;
+	double		off_y;
+	double		zoom;
+	int			max_ite;
+	u_int32_t	*palette;
+	int			palette_idx;
+	int			error;
 }	t_fractol;
 
 //Initialize fractol
@@ -73,8 +83,12 @@ void	close_window(void *param);
 
 // Events handler keys + mouse
 void	key_handler(mlx_key_data_t key_data, void *param);
+void	move(char direction, double distance, t_fractol *fractol);
+
+// Colours
+void	generate_palette(t_fractol *fractol);
 
 //Mandelbrot
-int	mandel_calc(t_fractol *fractol);
+int	mandelbrot(t_fractol *fractol);
 
 //Julia
